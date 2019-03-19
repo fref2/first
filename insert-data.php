@@ -1,10 +1,5 @@
 <?php
-
-$host         = "localhost";
-$username     = "root";
-$password     = "";
-$dbname       = "devoir";
-$result = 0;
+include 'dataBaseConection.php';
 
 /* Create connection */
 $conn = new mysqli($host, $username, $password, $dbname);

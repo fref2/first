@@ -13,6 +13,8 @@
 
           <!-- Custom styles for this template -->
     <link href="css/1-col-portfolio.css" rel="stylesheet">
+    
+    <script src="js/moment-with-locales.js"></script>
       
     <script
       src="http://code.jquery.com/jquery-3.3.1.min.js"
@@ -25,14 +27,14 @@
       
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script>
+
   </head>
       
       <body>
           
         <!-- Page Content -->
         <div class="container">
-            <table id="myTable" class="table table-striped table-dark">
+            <table id="myTable" class="table table-bordered table-dark">
               <tbody>
                 <tr>
                     <th colspan="6">
@@ -101,25 +103,29 @@
                   url:    "insert-data.php",
                   data: { "nom": nom, "dateRecu": dateRecu, "dateRemettre": dateRemettre},
                  });
+                  
+                moment.locale('fr');   
                     
-                var dateJourSemaine = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]; 
-                    
-                var dateJourSemaine2 = new Date(dateRecu).getDate();
-                    
-                var dateMois = ["Janvier","Février","Mars","Avril","Mai","Juin","Juilet","Août","Setptembre","Octobre","Novembre","Décembre"];  
-                       
                 var newTr = "<tr></tr>";
                 var newTd1 = $("<td></td>").text(nom);  
-                var newTd2 = $("<td></td>").text(dateJourSemaine[new Date(dateRecu).getDay()] + " le " + dateJourSemaine2 + " " + dateMois[new Date(dateRecu).getMonth()]);  
-                var newTd3 = $("<td></td>").text(dateRemettre); 
+                var newTd2 = $("<td></td>").text(moment(dateRecu).format('dddd') + " le " + moment(dateRecu).format('D ') + moment(dateRecu).format('MMMM'));  
+                var newTd3 = $("<td></td>").text((moment(dateRemettre).format('dddd') + " le " + moment(dateRemettre).format('D ') + moment(dateRemettre).format('MMMM'))); 
                     
                 if($('#boolRemit').prop('checked')){
                     var newTd4 = $("<td></td>").text("Oui");
-                    var newTd5 = $("<td style=\"background-color:#28a745\"></td>");
+                    var newTd5 = $("<td style=\"background-color:#28a745\"></td>").text(moment(dateRemettre).fromNow(dateRecu));
                 }
-                 else {
-                    var newTd4 = $("<td></td>").text("Non");
-                    var newTd5 = $("<td style=\"background-color:#ffc107\"></td>");
+                else {   
+                     var current = moment().startOf('day');
+                     var jourDifference = moment.duration(moment(dateRemettre).diff(current)).asDays();
+                     if(jourDifference > 2) {
+                        var newTd4 = $("<td></td>").text("Non");
+                        var newTd5 = $("<td style=\"background-color:#ffc107\"></td>").text(moment(dateRemettre).fromNow(dateRecu));
+                    }
+                     else {
+                        var newTd4 = $("<td></td>").text("Non");
+                        var newTd5 = $("<td style=\"background-color:#dc3545;\"></td>").text(moment(dateRemettre).fromNow(dateRecu));
+                     }
                 }
                     
                var newTd6 = $("<td><button style=\"width:100%\" class=\"btn btn-danger\">DELETE</button></td>"); 
