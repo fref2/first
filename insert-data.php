@@ -27,5 +27,4 @@ else {
 }
 echo $result;
 $conn->close();
-
 ?>
