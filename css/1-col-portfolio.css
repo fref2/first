@@ -17,7 +17,7 @@ body {
 }
 
 nav {
-    height: 70px;
+    height: 69px;
     background-color:black;
     background-image:-webkit-gradient(linear,left top, left bottom,from(#1e3c72),to(#2a5298));
     background-image:-webkit-linear-gradient(#1e3c72,#2a5298);
